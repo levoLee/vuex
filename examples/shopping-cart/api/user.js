@@ -8,7 +8,7 @@ const _user = [
 ]
 export default {
   getUser (cb) {
-    setTimeout(() => cb(_user), 10000)
+    setTimeout(() => cb(_user), 3000)
   },
   commitPhoneNum (_user, cb, errorCb) {
     setTimeout(() => {

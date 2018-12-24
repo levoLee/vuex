@@ -1,17 +1,19 @@
 import user from '../../api/user'
 // initial state
 const state = {
-  user: {}
+  user: {},
+  editable: false
 }
 // getters
 const getters = {}
 // actions
 const actions = {
-  getCurrentUser ({commit}) {
+  getCurrentUser ({ commit }) {
     user.getUser((users) => {
       const currentUser = users.find(user => user.id === 1)
       if (currentUser) {
         commit('setUsers', currentUser)
+        state.editable = true
       } else {
         console.log('无用户')
       }
@@ -20,10 +22,12 @@ const actions = {
   editPhone ({ commit, state }, users) {
     user.commitPhoneNum(
       users,
-      () => commit('setEditable', true),
       () => {
-        commit('setEditable', false)
-        commit('setPhoneNum', { phone: 123456789 })
+        commit('setEditable', true)
+        commit('setPhoneNum', { phone: Math.random() })
+      },
+      () => {
+        alert('手机修改失败')
       }
     )
   }
@@ -32,7 +36,12 @@ const actions = {
 const mutations = {
   setUsers (state, user) {
     state.user = user
-    console.log(state.user)
+  },
+  setEditable (state, boolean) {
+    state.editable = boolean
+  },
+  setPhoneNum (state, obj) {
+    state.user.phone = obj.phone
   }
 }
 export default {
